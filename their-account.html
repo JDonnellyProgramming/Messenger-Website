@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Their Account</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-image {
+            position: absolute;
+            left: 2%;
+            top: 2%;
+            width: 100px;
+            border-radius: 50%;
+        }
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .followers {
+            position: absolute;
+            top: 5%;
+            cursor: pointer;
+        }
+        .following {
+            position: absolute;
+            top: 5%;
+            left: 60%;
+            cursor: pointer;
+        }
+        .following-menu {
+          display: none;
+          position: absolute;
+          left: 40%;
+          top: 40%;
+          width: 300px;
+          height: 400px;
+          background-color: white;
+          border: 1px solid black;
+          border-radius: 20px;
+        }
+        .following-item {
+          background-color: grey;
+          padding: 10px 10px;
+          text-align: center;
+          border-radius: 20px;
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <img src="" alt="" class="profile-image">
+    <div class="profile-name"></div>
+    <div class="followers"><span>0</span>Followers</div>
+    <div class="following"><span>0</span>Following</div>
+    <div class="following-menu"></div>
+<script>
+    const profileImage = document.querySelector('.profile-image');
+        const profileName = document.querySelector('.profile-name');
+        const followingSpan = document.querySelector('.following span');
+        const followingDiv = document.querySelector('.following');
+        const followingMenu = document.querySelector('.following-menu');
+
+        let followingOpen = false;
+
+        let theirUsername2;
+        let theirImage;
+        let Following;
+        let followingCount;
+        let followingArray;
+        let urlList;
+        let urlListArray;
+        let addFollowing = false;
+
+        followingDiv.addEventListener('click', addToFollowingList);
+function addToFollowingList() {
+  if (!addFollowing) {
+  for (let i = 1; i < followingArray.length; i++) {
+  followingMenu.innerHTML += `<img src="${urlListArray[i - 1]} class=image-item"><div class="following-item" onclick="goToAccount(this)">${followingArray[i]}</div><br>`;
+  addFollowing = true;
+  console.log('stuff: ', followingArray[i]);
+  console.log('image: ', urlListArray[i - 1]);
+  }
+}
+else {
+  console.log('hello');
+}
+}
+
+function updateProfileInfo() {
+    profileImage.src = theirImage;
+    profileName.textContent = theirUsername2;
+    followingSpan.textContent = followingCount;
+ //continue this to create a menu div that can be opened then split the following string by comma then make a column of the following users with their profile images as ell as abilty to click onto their acount page to check all their details can also click to their page through the search user menu
+}
+
+function goToAccount(clickedDiv) {
+        window.location.href = "their-account.html";
+        var theirUsername = clickedDiv.textContent;
+        fetch('http://127.0.0.1:5000/their_account', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            their_username: theirUsername,
+          }),
+        });
+}
+
+function carryData() {
+    console.log('carry data');
+  fetch('http://127.0.0.1:5000/their_account', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ 
+      username: theirUsername2 
+    }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Process the data received from the backend
+    console.log(data);
+    console.log(data[0].username);
+    console.log(data[0].image);
+    console.log(data[0].following);
+    console.log(data[0].following_count);
+    console.log(data[0].url_list)
+    theirUsername2 = data[0].username;
+    thierImage = data[0].image;
+    Following = data[0].following;
+    urlList = data[0].url_list;
+    urlListArray = urlList.split(',');
+    followingArray = Following.split(',');
+    for (let i = 0; i < followingArray.length; i++) {
+      console.log('print array: ', followingArray[i]);
+      console.log('print image array: ', urlListArray[i]);
+    }
+    followingCount = data[0].following_count
+    
+    updateProfileInfo();
+  })
+  .catch(error => console.error('Error: ', error));
+}
+carryData();
+</script>
+</body>
+</html>

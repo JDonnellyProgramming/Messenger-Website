@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .the-result {
+            position: fixed;
+            z-index: 100;
+        }
+        .message-container {
+            width: 40%;
+            position: fixed;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+            z-index: 100;
+        }
+        .message-box {
+            width: 80%;
+            height: 30px;
+        }
+        .send-message {
+            width: 10%;
+            height: 40px;
+            text-align: center;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+        .message-place {
+            position: absolute;
+            left: 40%;
+            top: 20%;
+        }
+        .message-item {
+            background-color: lightgrey;
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .profile-image {
+            width: 50px;
+            border-radius: 50%;
+            margin-left: -50px;
+            margin-bottom: -50px;
+            cursor: pointer;
+        }
+        .search-user {
+            position: absolute;
+            right: 1%;
+            top: 3%;
+            cursor: pointer;
+        }
+        .search-menu {
+            display: none;
+            position: absolute;
+            left: 20%;
+            top: 40%;
+            width: 70%;
+            height: 30%;
+            background-color: white;
+            z-index: 200;
+            border: 1px solid black;
+        }
+        .search-input {
+            position: absolute;
+            top: 40%;
+            left: 15%;
+            width: 70%;
+            height: 30px;
+        }
+        .search-btn {
+            position: absolute;
+            top: 42%;
+            right: 2px;
+            width: 40px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .search-result {
+            position: absolute;
+            bottom: 70px;
+            left: 40%;
+            cursor: pointer;
+        }
+        .result-image {
+            position: absolute;
+            bottom: 70px;
+            left: 10%;
+            width: 40px;
+            border-radius: 50%;
+        }
+        .add-friend {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            left: 40%;
+            width: 100px;
+            height: 40px;
+            cursor: pointer;
+        }
+        .account-btn {
+            position: absolute;
+            left: 1%;
+            top: 2%;
+            cursor: pointer;
+        }
+        @media screen and (max-width: 1500px) {
+            .message-container {
+                width: 40%;
+            }
+            .message-box { 
+                width: 80%;
+        }
+        .send-message {
+            width: 30%;
+        }
+        }
+        @media screen and (max-width: 1200px) {
+            .message-container {
+                width: 40%;
+            }
+            .message-box { 
+                width: 80%;
+        }
+        }
+        
+        @media screen and (max-width: 600px) {
+            .message-container {
+                width: 60%;
+            }
+            .message-box { 
+                width: 80%;
+        }
+        .send-message {
+            width: 30%;
+        }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="the-result"></div>
+    <button class="search-user">Search User</button>
+    <div class="message-container">
+        <input type="text" class="message-box">
+        <div class="send-message">Send</div>
+    </div>
+    <div class="message-place">
+
+    </div>
+    <button class="account-btn">Account</button>
+    <div class="search-menu">
+        <input type="text" class=search-input>
+        <button class=search-btn>Search</button>
+        <div class=search-result></div>
+        <img src="" alt="" class="result-image">
+        <button class="add-friend">Add Friend</button>
+    </div>
+
+    <script>
+        const messageInput = document.querySelector('.message-box');
+        const sendMessage = document.querySelector('.send-message');
+        const messagePlace = document.querySelector('.message-place');
+        const searchUser = document.querySelector('.search-user');
+        const searchMenu = document.querySelector('.search-menu');
+        const searchInput = document.querySelector('.search-input');
+        const searchResult = document.querySelector('.search-result');
+        const resultImage = document.querySelector('.result-image');
+        const addFriend = document.querySelector('.add-friend');
+        const accountBtn = document.querySelector('.account-btn');
+   
+        let Username;
+        let searchOpen = false;
+
+        messageInput.addEventListener('keydown', stopInput);
+        sendMessage.addEventListener('click', sendMessageFunc);
+        sendMessage.addEventListener('click', addMessages);
+        sendMessage.addEventListener('click', sendNewMessage);
+        searchUser.addEventListener('click', searchMenuFunc);
+        searchInput.addEventListener('input', searchOperate);
+        searchResult.addEventListener('click', searchResultFunc);
+        addFriend.addEventListener('click', addFriendFunc);
+        accountBtn.addEventListener('click', goToAccount);
+
+        function goToAccount() {
+            window.location.href = 'my-account.html';
+        }
+
+        function searchMenuFunc() {
+                if (!searchOpen) {
+                   searchMenu.style.display = 'block';
+                   searchOpen = true;
+                }
+                else {
+                    searchMenu.style.display = 'none';
+                    searchOpen = false;
+                }
+        }
+        let friendUsername;
+        let Username4;
+
+        function addFriendFunc() {
+            Promise.all([
+                fetch('message_data.json').then(response => response.json()),
+                fetch('curr_credentials.json').then(response => response.json())
+            ])
+            .then(data => {
+                const userInfo = data[0];
+                const currentuserInfo = data[1];
+
+                const user2 = userInfo.find(user2 => user2.username === searchInput.value.trim())
+
+                if (user2) {
+                    friendUsername = user2.username;
+                    Username4 = currentuserInfo.username;
+                    console.log(friendUsername);
+                    console.log(Username4);
+
+                    sendToFlaskBackend();
+                }
+            })
+            .catch(error => console.error('Error fetching data: ', error));
+        }
+
+        function sendToFlaskBackend() {
+            fetch('http://127.0.0.1:5000/add_friend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    friendUser: friendUsername, 
+                    mainUser: Username4 }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from Flask', data);
+            })
+            .catch(error => {
+                console.log('Error: ', error);
+            })
+        }
+
+        function searchResultFunc() {
+            console.log('user clicked');
+        }
+        
+        function searchOperate() {
+            fetch('message_data.json')
+            .then(response => response.json())
+            .then(userList => {
+                const user = userList.find(user => user.username === searchInput.value.trim())
+
+                if (user) {
+                    const currUsername = user.username;
+                    const currImage = user.image;
+                    resultImage.src = currImage;
+                    searchResult.textContent = currUsername;
+                    addFriend.style.display = 'block';
+                    console.log(currUsername, currImage);
+                }
+                else {
+                    searchResult.textContent = "";
+                    resultImage.src = "";
+                    addFriend.style.display = 'none';
+                }
+            })
+            .catch(error => console.error('Error fetching data: ', error));
+        }
+
+        function sendNewMessage(e) {
+            e.preventDefault();
+            fetch('message_data.json')
+            .then(response => response.json())
+            .then(data => {
+                const Usernames = data.map(item => item.username);
+                const Messages = data.map(item => item.message);
+                const Times = data.map(item => item.time);
+                messagePlace.innerHTML += `<div class="message-item">${Usernames[0]}: ${Messages[-1]}    ${Times[-1]}</div><br>`;
+            })
+            return false;
+        }
+    
+            fetch('message_data.json')
+            .then(response => response.json())
+            .then(data => {
+                const Usernames = data.map(item => item.username);
+                const Messages = data.map(item => item.message);
+                const Times = data.map(item => item.time);
+                const Images = data.map(item => item.image)
+
+                console.log(Usernames);
+                console.log(Messages);
+                console.log(Times);
+                console.log(Images);
+                for (let i = Usernames.length - 1; i > 0; i--) {
+                    messagePlace.innerHTML += `<img src="${Images[i]}" class="profile-image"><div class="message-item">${Usernames[i]}: ${Messages[i]}    ${Times[i]}</div><br>`;
+                }
+            })
+            .catch(error => console.error('Error: ', error));
+    
+
+        function sendMessageFunc(e) {
+            e.preventDefault();
+            if (messageInput.value !== "") {
+            fetch('curr_credentials.json')
+            .then(response => response.json())
+            .then(data => {
+                const Username2 = data.username;
+                console.log(Username2);
+                const messageValue2 = messageInput.value;
+      
+            
+            return fetch('http://127.0.0.1:5000/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    username: Username2, 
+                    message: messageValue2 }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from Flask', data);
+            })
+            .catch(error => {
+                console.error('Error: ', error);
+            });
+        });
+        }
+        else {
+            console.log('it is not');
+        }
+        return false;
+      
+    }
+    
+    
+function addMessages(e) {
+    e.preventDefault();
+    console.log('add messages');
+    fetch('http://127.0.0.1:5000/add_messages', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .catch(error => console.error('Error: ', error));
+    return false;
+}
+        function stopInput(event) {
+            const messageValue = messageInput.value;
+            if (this.value.length >= 48 && (event.key !== 'Backspace')) {
+                console.log('over 48');
+                event.preventDefault();
+                this.value += '';
+            }
+            else {
+                console.log('under 48');
+            }
+            
+        }
+        fetch('curr_credentials.json')
+        .then(response => response.json())
+        .then(data => {
+             const Username = data.username;
+             console.log(Username);
+             const theResult = document.querySelector('.the-result');
+             theResult.textContent = Username;
+             
+        });
+        window.addEventListener('beforeunload', function() {
+    fetch('http://127.0.0.1:5000/leave_page', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: Username
+        })
+    })
+}) 
+    </script>
+</body>
+</html>

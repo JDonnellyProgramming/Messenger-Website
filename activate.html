@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Function</title>
+</head>
+<body>
+    <button class="activate-button">Activate</button>
+    <div class="result"></div>
+
+    <script>
+        document.querySelector('.activate-button').addEventListener('click', function() {
+            fetch('http://localhost:5000/activate_function')
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('.result').innerText = data.message;
+            });
+        });
+    </script>
+</body>
+</html>

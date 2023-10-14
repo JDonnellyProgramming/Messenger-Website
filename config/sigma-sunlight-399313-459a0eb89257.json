@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sigma-sunlight-399313",
+  "private_key_id": "459a0eb89257995ebd56a31f9d2843907a9b6140",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDLjupZhGlBU6nG\nK7b2mqrZ9I8LyYCmsyuYTNVWOqm8wU8lDvj2hj1pWx3E1J2yzYU5BCEa0MrbKnY/\nU5Wfs+0BWf+sgyk0dSBDrz3XsVhqmYJ6kvUHNEvSxLE8ss5wLGKLaSzfWZ2DAR4U\nLpx0gQOxpS8WllOLMay/9dZdlrQTuuyfhOg8RHALkfrWceRdLA0TVHvZwmWEIpUR\n0wnUw+x3wFytJygSarFurYK4st5dbk81PX1aT37HLl3gGohsTFDb2MAWpApqpIIG\nWlyBzPaYWDg4WVc4zYNwTSMa2Ucyr/C5Hrnd/u1WhKCzSBVrM1xqe7JyDOcrA+gj\n94eLb9HxAgMBAAECggEAV4yJOKUdjA5Kt8P3dksBbqqjl4M8BPaMqn1pSCQE+vz9\naEfvRkBoS1b4D78OcGe6g9JF1r20cdzqbMQrVzvQlMM7ltv2rewuS04kwA8zou2R\nU9y+7DFO50DXpe6VoWNFowZCWXG2sDCb2jxN6EHQ7+fGv+U522UrEojOgQQfQVhg\nAW894ys4z39+XsQWU4E08aLk681j/Fa5V/HCnhH93r1EFsZD/atQn+XmlnaYfwbN\ntrmMjj5u2Q3BsRNoPnlaY2YzTfBCQfId9+CgeWAZ9zD+TewyBvX8Z8IViNmclDd6\nhyFkwQwgtua35fyreF0MrM0SivLsYNrYOu3a9CeUPQKBgQD3+tG98JReQWl7MQJY\nLGAkvj/cmFAq0xKqvhKno3F0u15x19I1iBGIuQu2JRrVw8W8gbRs7wTKsznLZhh5\nk5hXFSwbBU9TiP3N790aXx/MBxZMzd9DIFkEpb7ff/3O9sxl/Kzy8u9ITaOqqcjR\niOFuFGLnKzYpcQPhAbUySXfOMwKBgQDSJE1zYq7TToKmVYRtQFJ+G7yskFcoOuDM\nvYfsao15rpE1u98GuL8YUG7xh1ly0euFM0rW5PKv3lQcM1tQoUTY3Ur1ltfeYMod\nodUENoZfg5R/4ihW0i+afDVNH6fqSi8GxCWYuN1ncrEJP6YtoeLdSlZzMoSI/1A9\nuEvaLPTzSwKBgB4mQJn3RhKvoUN5Ee/mdUoCV4Fag2SxhPN9aIc5N/IZVcJBmy0m\n/frBhMsAd+LFiqUAoA8egFaks8InB5LAfyUXTeV7H8noPfNr1lX+er8znWJ5JUvk\nAu6tuCc0SIeBOhisP9rJ7o274so9Gk1fdwkLMXsppcwkEXSp4H3csNRBAoGAQa8x\nOmDdLpV6xw0yAIg7gMmgtvvDEoMc40JW6zH/GMrU/svDkbFLogj6NKrO7dHp4U/A\nE92qcgh3l/0BjPlrsLGzDYLh5NOyOYLtN4zngZF6aGLDoye903cBniLH9LbNbjr/\nWXZnVj+GUNLBWcAhTnQ/A3EF9mB/r1sc8oxc4HMCgYBAe7ACY0vVcXdahWOjs8FS\n1pakZATZv68h4eSzD7tKm0BqOs+jAJlbWBZ8RFVGqZN0FLpP7MH50FGnGO/zhbRG\nOD+lxd9FrcZOHMMQWC+bH9SRcIq7HkqKn52eaCNEMtjeC2DLE4YnRWOH+I3DJlZy\nbtEoW6gRPSgkyioB8B33Pw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "sheetsproject@sigma-sunlight-399313.iam.gserviceaccount.com",
+  "client_id": "101113507036239753852",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sheetsproject%40sigma-sunlight-399313.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

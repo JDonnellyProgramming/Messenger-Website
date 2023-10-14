@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+          .top-frame {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background-color: darkblue;
+            height: 160px;
+          }
+          .top-frame h1 {
+            font-size: 50px;
+            color: white;
+          }
+          .username-div {
+            z-index: 100;
+            color: white;
+            margin-right: 20px;
+          }
+          .the-image {
+            width: 100px;
+            border-radius: 50%;
+            margin-left: 20px;
+          }
+          .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+          }
+          .gender-label {
+            position: absolute;
+            font-size: 20px;
+            cursor: pointer;
+          }
+          .gender-select {
+            position: absolute;
+            margin-top: 120px;
+            cursor: pointer;
+            width: 140px;
+            height: 60px;
+            text-align: center;
+          }
+          .gender-comment {
+            position: absolute;
+            top: 270px;
+            font-size: 14px;
+            color: red;
+          }
+          .next-section {
+            position: absolute;
+            top: 300px;
+            border: 1px solid black;
+            width: 100px;
+            height: 60px;
+            text-align: center;
+            border-radius: 20px;
+            cursor: pointer;
+          }
+          .age-label {
+            display: block;
+            position: absolute;
+            top: 360px;
+            font-size: 30px;
+            opacity: 0;
+          }
+          .age-input {
+            display: block;
+            position: absolute;
+            top: 420px;
+            width: 50px;
+            height: 40px;
+            opacity: 0;
+            cursor: pointer;
+          }
+          .age-comment {
+            position: absolute;
+            top: 440px;
+            font-size: 14px;
+            color: red;
+          }
+          .tick-box-wrapper {
+            position: absolute;
+            margin-top: 0%;
+            right: 8%;
+            width: 100px;
+            height: 20px;
+            border: 2px solid black;
+          }
+          .tick-box {
+            position: absolute;
+            width: 0px; /*0 to 96 */
+            left: 0;
+            height: 16px;
+            background-color: green;
+          }
+          .first-name-label {
+            position: absolute;
+            top: 540px;
+            font-size: 24px;
+          }
+          .first-name-input {
+            position: absolute;
+            top: 580px;
+            width: 200px;
+            height: 36px;
+          }
+          .first-name-comment {
+            position: absolute;
+            top: 620px;
+            font-size: 14px;
+            color: red;
+          }
+          .second-name-label {
+            position: absolute;
+            top: 640px;
+            font-size: 24px;
+          }
+          .second-name-input {
+            position: absolute;
+            top: 680px;
+            width: 200px;
+            height: 36px;
+          }
+          .second-name-comment {
+            position: absolute;
+            top: 720px;
+            font-size: 14px;
+            color: red;
+          }
+          .submit-btn {
+            position: absolute;
+            top: 740px;
+            width: 140px;
+            height: 40px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 2px solid black;
+          }
+    </style>
+</head>
+<body>
+    <div class="top-frame">
+        <div class="image-div">
+            <img src="" class="the-image">
+        </div> 
+           <h1>User Survey</h1>  
+           <div class="username-div"></div>        
+    </div>
+    <div class="wrapper">
+        <label for="" class="gender-label">Gender:</label>
+        <div class="tick-box-wrapper">
+            <div class="tick-box"></div>
+        </div>
+        <select class="gender-select">
+            <option value="select">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        <div class="gender-comment"></div>
+        <button class="next-section">Next</button>
+        <div class="age-label">Age:</div>
+        <input type="number" class="age-input" min="1" max="100">
+        <div class="age-comment"></div>
+        <label for="" class="first-name-label">First Name:</label>
+        <input type="text" class="first-name-input">
+        <div class="first-name-comment"></div>
+        <label for="" class="second-name-label">Second Name:</label>
+        <input type="text" class="second-name-input">
+        <div class="second-name-comment"></div>
+
+        <button class="submit-btn">Submit</button>
+    </div>
+    <script>
+        let Username;
+        let actualImage;
+        let hoverGender = false;
+        let currPos = 0;
+        let currPos2 = 360;
+        let currPos3 = 420;
+        let gravity = 0.5;
+        let velocity = 0;
+        let damping = 0.93;
+        let currOpacity = 0;
+        let currWidth = 0;
+        let interval;
+        const genderLabel = document.querySelector('.gender-label');
+        const genderSelect = document.querySelector('.gender-select');
+        const nextSection = document.querySelector('.next-section');
+        const ageLabel = document.querySelector('.age-label');
+        const ageInput = document.querySelector('.age-input');
+        const tickBoxWrapper = document.querySelector('.tick-box-wrapper');
+        const tickBox = document.querySelector('.tick-box');
+        const submitBtn = document.querySelector('.submit-btn');
+        const genderComment = document.querySelector('.gender-comment');
+        const ageComment = document.querySelector('.age-comment');
+        const firstNameInput = document.querySelector('.first-name-input');
+        const secondNameInput = document.querySelector('.second-name-input');
+        const firstNameComment = document.querySelector('.first-name-comment');
+        const secondNameComment = document.querySelector('.second-name-comment');
+        console.log(Username);
+        console.log(actualImage);
+        let increasePos = 0.1;
+        let isAnimating = false; // Flag to track animation status
+        let isAnimating2 = false;
+        let isAnimating3 = false;
+
+genderLabel.addEventListener('mouseover', genderAnimateOver);
+genderLabel.addEventListener('mouseleave', genderAnimateLeave);
+nextSection.addEventListener('click', openNewOptions);
+genderSelect.addEventListener('input', addGreenBox);
+submitBtn.addEventListener('click', checkSurvey);
+
+function checkSurvey() {
+    console.log('submit');
+    if (genderSelect.value == "select") {
+        genderComment.textContent = "This must not be select";
+        console.log('yep');
+        console.log(genderComment.textContent);
+    }
+    if (ageInput.value !== "") {
+        ageComment.textContent = "";
+    }
+    if (ageInput.value == "") {
+          ageComment.textContent = "Must be filled";
+    }
+    if (genderSelect.value !== "select") {
+        genderComment.textContent = "";
+    }
+    if (firstNameInput.value == "") {
+        firstNameComment.textContent = "Must be filled";
+    }
+    if (firstNameInput.value !== "") {
+        firstNameComment.textContent = "";
+    }
+    if (secondNameInput.value == "") {
+        secondNameComment.textContent = "Must be filled";
+    }
+    if (secondNameInput.value !== "") {
+        secondNameComment.textContent = "";
+    }
+    if (genderSelect.value !== "" && ageInput.value !== "" && firstNameInput.value !== "" && secondNameInput.value !== "") {
+        console.log('hello');
+        fetch('http://127.0.0.1:5000/submit_survey', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: Username,
+                gender: genderSelect.value,
+                age: ageInput.value,
+                firstname: firstNameInput.value,
+                secondname: secondNameInput.value
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+    }
+}
+
+function addGreenBox() {
+    if (genderSelect.value !== 'select') {
+        let interval3 = setInterval(function() {
+            if (currWidth <= 96) {
+                currWidth += 10;
+                tickBox.style.width = currWidth + 'px';
+            }
+            else if (currWidth >= 96) {
+                tickBox.style.width = '96px';
+                clearInterval(interval3);
+                currWidth = 96;
+            }
+        }, 100);
+    } else {
+        let interval4 = setInterval(function() {
+            if (currWidth >= 0) {
+                currWidth -= 10;
+                tickBox.style.width = currWidth + 'px';
+            }
+            else if (currWidth <= 0) {
+                tickBox.style.width = '0px';
+                clearInterval(interval4);
+                currWidth = 0;
+            }
+        }, 100);
+    }
+}
+
+function openNewOptions() {
+    if (!isAnimating2) {
+        isAnimating2 = true;
+        let interval2 = setInterval(function() {
+            if (currPos2 <= 400) {
+                gravity += 0.5;
+                currOpacity += 0.2;
+                velocity += gravity;
+                currPos2 += velocity;
+                currPos3 += velocity;
+                ageLabel.style.top = currPos2 + 'px';
+                ageInput.style.top = currPos3 + 'px';
+                ageLabel.style.opacity = currOpacity;
+                ageInput.style.opacity = currOpacity;
+            }
+            else {
+                velocity = -velocity * damping;
+                currPos2 += velocity;
+                currPos3 += velocity;
+                ageLabel.style.top = currPos2 + 'px';
+                ageInput.style.top = currPos3 + 'px';
+                console.log(velocity);
+            }
+            if (currPos2 >= 400 && Math.abs(velocity) < 0.2) {
+                clearInterval(interval2);
+            }
+        }, 100)
+    }
+}
+
+function genderAnimateOver() {
+    hoverGender = true;
+    if (!isAnimating) { // Check if animation is not already running
+        genderAnimate();
+    }
+}
+
+function genderAnimateLeave() {
+    hoverGender = false;
+    if (!isAnimating) { // Check if animation is not already running
+        genderAnimate();
+    }
+}
+
+function genderAnimate() {
+    isAnimating = true; // Set flag to indicate animation is running
+
+    interval = setInterval(function() {
+        if (hoverGender) {
+            currPos += 0.6; // Adjust the step size as needed
+            genderLabel.style.marginLeft = 20 * Math.sin(currPos) + 'px';
+            genderLabel.style.transform = `rotate(${10*Math.sin(currPos)}deg)`;
+        } else {
+            clearInterval(interval);
+            genderLabel.style.marginLeft = 0;
+            genderLabel.style.transform = 'rotate(0deg)';
+            currPos = 0;
+            isAnimating = false; // Reset flag when animation stops
+        }
+    }, 100);
+}
+
+
+fetch('curr_credentials.json')
+    .then(response => response.json())
+    .then(data => {
+        Username = data.username;
+        console.log(Username);
+
+        // Make the second fetch call here
+        fetch('http://127.0.0.1:5000/user_survey', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: Username,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const responseData3 = data[0].username;
+            const actualImage = data[0].image;
+            console.log(responseData3);
+            console.log(actualImage);
+
+            const usernameDiv = document.querySelector('.username-div');
+            const theImage = document.querySelector('.the-image');
+
+            usernameDiv.textContent = Username;
+            theImage.src = actualImage;
+        });
+    });
+    </script>
+</body>
+</html>
